@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>AITECH — Home</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef8ff', 100: '#d7edff', 200: '#b9e0ff', 300: '#8ed0ff', 400: '#55b8ff',
+              500: '#1E90FF', 600: '#1674d6', 700: '#135fab', 800: '#124f8b', 900: '#0f3e6b'
+            },
+            accent: {
+              50: '#fff7ed', 100: '#ffedd5', 200: '#fed7aa', 300: '#fdba74', 400: '#fb923c',
+              500: '#f97316', 600: '#ea580c', 700: '#c2410c', 800: '#9a3412', 900: '#7c2d12'
+            }
+          },
+          boxShadow: {
+            glow: '0 10px 30px rgba(30,144,255,0.25)',
+            soft: '0 8px 24px rgba(2,6,23,0.15)'
+          },
+          animation: {
+            float: 'float 6s ease-in-out infinite',
+            shimmer: 'shimmer 2s linear infinite',
+            pingSlow: 'ping 2.5s cubic-bezier(0, 0, 0.2, 1) infinite'
+          },
+          keyframes: {
+            float: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-8px)' } },
+            shimmer: {
+              '0%': { backgroundPosition: '-500px 0' },
+              '100%': { backgroundPosition: '500px 0' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide icons -->
+  <script src="https://unpkg.com/lucide@0.258.0/dist/lucide.min.js"></script>
+
+  <!-- GSAP for subtle animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <style>
+    .glass { backdrop-filter: blur(10px); background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.55)); }
+    .dark .glass { backdrop-filter: blur(10px); background: linear-gradient(180deg, rgba(17,24,39,0.6), rgba(17,24,39,0.45)); }
+    .gradient-card { background: linear-gradient(135deg, rgba(30,144,255,0.12), rgba(249,115,22,0.08)); }
+    .shimmer-bg { background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.35), rgba(255,255,255,0)); background-size: 1000px 100%; }
+    
+    /* Mobile-specific improvements */
+    body {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+    }
+    input, textarea, select {
+      font-size: 16px !important; /* Prevents zoom on iOS */
+    }
+    .nav-btn {
+      min-width: 44px;
+      min-height: 44px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen selection:bg-brand-200 selection:text-slate-900">
+
+  <!-- App Wrapper -->
+  <div id="app" class="max-w-6xl mx-auto px-3 pb-24">
+
+    <!-- Top Bar -->
+    <header class="sticky top-0 z-40">
+      <div class="glass shadow-glow rounded-2xl mt-3 flex items-center justify-between p-3">
+        <div class="flex items-center gap-2">
+          <i data-lucide="atom" class="text-brand-600 w-6 h-6"></i>
+          <h1 class="text-xl font-extrabold tracking-tight">AITECH</h1>
+          <span class="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-brand-100 text-brand-700 dark:bg-brand-900/40 dark:text-brand-200">Campus</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <button id="searchBtn" class="hidden md:flex items-center gap-1 px-2 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition shadow-soft">
+            <i data-lucide="search" class="w-4 h-4"></i>
+            <span class="text-xs">Search</span>
+          </button>
+          <button id="themeToggle" class="w-9 h-9 grid place-items-center rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+            <i data-lucide="sun" class="light-icon w-4 h-4"></i>
+            <i data-lucide="moon" class="dark-icon hidden w-4 h-4"></i>
+          </button>
+          <button id="notifBtn" class="relative w-9 h-9 grid place-items-center rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span id="notifDot" class="absolute -top-1 -right-1 w-4 h-4 text-[9px] grid place-items-center bg-accent-500 text-white rounded-full animate-pingSlow">3</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Hero Banner -->
+      <div class="mt-3 relative overflow-hidden rounded-2xl gradient-card p-4 md:p-6 shadow-soft">
+        <div class="absolute -top-8 -right-8 w-40 h-40 bg-brand-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute -bottom-8 -left-8 w-48 h-48 bg-accent-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div class="flex-1">
+            <p class="uppercase tracking-widest text-xs text-brand-700/80 dark:text-brand-300">Welcome back</p>
+            <h2 class="text-2xl md:text-3xl font-extrabold mt-1">Learn. Build. Ship. <span class="text-brand-600">Repeat.</span></h2>
+            <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Live classes, compilers, community and mentorship in one place.</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <button onclick="navigate('courses')" class="px-3 py-1.5 text-sm rounded-xl bg-brand-600 hover:bg-brand-700 text-white shadow-glow">Browse Courses</button>
+              <button onclick="navigate('community')" class="px-3 py-1.5 text-sm rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:opacity-90 shadow-soft">Join Community</button>
+            </div>
+          </div>
+          <div class="relative mt-3 md:mt-0">
+            <div class="w-full md:w-[280px] h-40 md:h-44 rounded-xl bg-white/70 dark:bg-slate-900/60 border border-white/40 dark:border-slate-700 overflow-hidden grid place-items-center shadow-soft">
+              <div class="text-center p-3">
+                <div class="text-xs text-slate-500">Mentor • Founder • Tutor</div>
+                <div class="text-lg font-bold mt-1" id="heroName">ANOINTING ESE</div>
+                <div class="mt-2 text-xs text-slate-500">"Consistency beats talent when talent doesn't ship."</div>
+              </div>
+              <div class="absolute inset-x-0 bottom-0 h-1 shimmer-bg animate-shimmer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Live Now Marquee -->
+    <section id="liveNowStrip" class="mt-3 hidden">
+      <div class="rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 p-2 shadow-soft">
+        <div class="flex items-center gap-1 text-emerald-700 dark:text-emerald-200 text-xs">
+          <i data-lucide="radio" class="text-emerald-600 animate-pulse w-3 h-3"></i>
+          <p><span class="font-semibold">Live now:</span> <span id="liveNowText"></span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screens -->
+    <main class="mt-4 space-y-6">
+      <!-- HOME -->
+      <section id="home" class="space-y-6">
+        <!-- Quick Actions / Compilers -->
+        <div class="grid grid-cols-3 gap-2">
+          <a href="https://codepen.io/pen/" target="_blank" class="group rounded-xl p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft hover:shadow-glow transition flex flex-col items-center text-center">
+            <i data-lucide="code-2" class="w-5 h-5"></i>
+            <div class="mt-1 font-semibold text-xs">HTML</div>
+            <div class="text-[10px] text-slate-500">Compiler</div>
+          </a>
+          <a href="https://codepen.io/pen/" target="_blank" class="group rounded-xl p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft hover:shadow-glow transition flex flex-col items-center text-center">
+            <i data-lucide="file-text" class="w-5 h-5"></i>
+            <div class="mt-1 font-semibold text-xs">CSS</div>
+            <div class="text-[10px] text-slate-500">Compiler</div>
+          </a>
+          <a href="https://jsfiddle.net/" target="_blank" class="group rounded-xl p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft hover:shadow-glow transition flex flex-col items-center text-center">
+            <i data-lucide="file-code" class="w-5 h-5"></i>
+            <div class="mt-1 font-semibold text-xs">JS</div>
+            <div class="text-[10px] text-slate-500">Playground</div>
+          </a>
+          <a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" class="group rounded-xl p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft hover:shadow-glow transition flex flex-col items-center text-center">
+            <i data-lucide="terminal" class="w-5 h-5"></i>
+            <div class="mt-1 font-semibold text-xs">Python</div>
+            <div class="text-[10px] text-slate-500">Run online</div>
+          </a>
+          <a href="https://www.programiz.com/java-programming/online-compiler/" target="_blank" class="group rounded-xl p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft hover:shadow-glow transition flex flex-col items-center text-center">
+            <i data-lucide="coffee" class="w-5 h-5"></i>
+            <div class="mt-1 font-semibold text-xs">Java</div>
+            <div class="text-[10px] text-slate-500">Run online</div>
+          </a>
+          <a href="https://onecompiler.com/kotlin" target="_blank" class="group rounded-xl p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft hover:shadow-glow transition flex flex-col items-center text-center">
+            <i data-lucide="cpu" class="w-5 h-5"></i>
+            <div class="mt-1 font-semibold text-xs">Kotlin</div>
+            <div class="text-[10px] text-slate-500">Run online</div>
+          </a>
+        </div>
+
+        <!-- Today Schedule -->
+        <div class="space-y-2">
+          <div class="flex items-baseline justify-between">
+            <h3 class="text-lg font-bold">Today's Schedule</h3>
+            <div id="todayDate" class="text-xs text-slate-500"></div>
+          </div>
+          <div id="todaySchedule" class="grid gap-2"></div>
+        </div>
+
+        <!-- Weekly Schedule -->
+        <div class="space-y-2">
+          <div class="flex items-baseline justify-between">
+            <h3 class="text-lg font-bold">Weekly Lineup</h3>
+            <button onclick="openCalendar()" class="text-xs text-brand-600 hover:underline">View All</button>
+          </div>
+          <div id="weekGrid" class="grid gap-2"></div>
+        </div>
+
+        <!-- Highlights / Announcements -->
+        <div class="grid gap-3">
+          <div class="rounded-xl p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft">
+            <div class="flex items-center gap-1">
+              <i data-lucide="bolt" class="text-brand-600 w-4 h-4"></i>
+              <h4 class="font-semibold text-sm">Announcements</h4>
+            </div>
+            <ul id="announcements" class="mt-2 space-y-1 text-xs text-slate-600 dark:text-slate-300"></ul>
+          </div>
+          <div class="rounded-xl p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft">
+            <div class="flex items-center gap-1">
+              <i data-lucide="trophy" class="w-4 h-4"></i>
+              <h4 class="font-semibold text-sm">Leaderboard</h4>
+            </div>
+            <div class="mt-2 space-y-2" id="leaderboard"></div>
+          </div>
+          <div class="rounded-xl p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft">
+            <div class="flex items-center gap-1">
+              <i data-lucide="calendar-range" class="w-4 h-4"></i>
+              <h4 class="font-semibold text-sm">Upcoming</h4>
+            </div>
+            <ul class="mt-2 space-y-1 text-xs text-slate-600 dark:text-slate-300" id="upcoming"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- COURSES -->
+      <section id="courses" class="hidden">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-lg font-bold">Courses</h3>
+          <div class="flex gap-1">
+            <input id="courseSearch" placeholder="Search..." class="px-2 py-1 text-sm rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-24"/>
+            <select id="courseFilter" class="px-2 py-1 text-sm rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <option value="all">All</option>
+              <option>Frontend</option>
+              <option>Backend</option>
+              <option>Security</option>
+            </select>
+          </div>
+        </div>
+        <div id="courseGrid" class="grid gap-3"></div>
+      </section>
+
+      <!-- COMPANY -->
+      <section id="company" class="hidden space-y-3">
+        <div class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft">
+          <h3 class="text-lg font-bold">About AITECH</h3>
+          <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">We build world-class developers through intensive live sessions, projects, and mentorship.</p>
+          <div class="mt-3 grid gap-2">
+            <div class="p-2 rounded-lg bg-brand-50 dark:bg-brand-900/20">
+              <div class="text-xs text-brand-700 dark:text-brand-300">Founded by</div>
+              <div class="font-semibold text-sm">ANOINTING ESE</div>
+            </div>
+            <div class="p-2 rounded-lg bg-accent-50 dark:bg-accent-900/20">
+              <div class="text-xs text-accent-700 dark:text-accent-300">Focus</div>
+              <div class="font-semibold text-sm">Practical learning</div>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800">
+              <div class="text-xs text-slate-700 dark:text-slate-300">Community</div>
+              <div class="font-semibold text-sm">10k+ learners</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft">
+          <h4 class="font-semibold text-sm flex items-center gap-1"><i data-lucide="building-2" class="w-4 h-4"></i> Our Partners</h4>
+          <div class="mt-2 grid grid-cols-2 gap-2 opacity-80">
+            <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 text-xs">DevCloud</div>
+            <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 text-xs">ShipIt</div>
+            <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 text-xs">InfraKit</div>
+            <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 text-xs">SecureNet</div>
+          </div>
+        </div>
+        
+        <!-- New Company Information Section -->
+        <div class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft">
+          <h4 class="font-semibold text-sm flex items-center gap-1"><i data-lucide="briefcase" class="w-4 h-4"></i> Our Companies</h4>
+          <div class="mt-3 space-y-3">
+            <div class="p-3 rounded-lg bg-brand-50 dark:bg-brand-900/20">
+              <div class="text-xs text-brand-700 dark:text-brand-300">LuxCart</div>
+              <div class="font-semibold text-sm">Founder: ANOINTING ESE</div>
+              <a href="https://luxcart.web.app" target="_blank" class="text-xs text-brand-600 hover:underline mt-1 block">https://luxcart.web.app</a>
+            </div>
+            <div class="p-3 rounded-lg bg-accent-50 dark:bg-accent-900/20">
+              <div class="text-xs text-accent-700 dark:text-accent-300">ENGLA GIP</div>
+              <div class="font-semibold text-sm">Co-Founder: ANOINTING ESE</div>
+              <a href="https://engla-gip.web.app" target="_blank" class="text-xs text-accent-600 hover:underline mt-1 block">https://engla-gip.web.app</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMMUNITY -->
+      <section id="community" class="hidden space-y-3">
+        <div class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-lg font-bold">Community</h3>
+            <button class="px-2 py-1 text-sm rounded-lg bg-brand-600 text-white" onclick="openModal('newPostModal')"><i data-lucide="plus" class="w-4 h-4"></i> Post</button>
+          </div>
+
+          <!-- Compose area -->
+          <div class="mt-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+            <div class="flex gap-2 items-start">
+              <div id="composerAvatar" class="w-10 h-10 rounded-xl bg-brand-600 grid place-items-center text-white font-bold text-sm">AE</div>
+              <div class="flex-1">
+                <textarea id="composerText" rows="2" placeholder="Share what you're learning…" class="w-full resize-none bg-transparent outline-none text-sm"></textarea>
+                <div class="mt-1 flex items-center justify-between flex-wrap gap-1">
+                  <label class="cursor-pointer flex items-center gap-1 px-2 py-1 text-xs rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                    <i data-lucide="image" class="w-3 h-3"></i><span>Media</span>
+                    <input id="composerFiles" type="file" accept="image/*,video/*,.zip,.rar,.txt,.js,.py,.java,.kt,.pdf" multiple class="hidden">
+                  </label>
+                  <div class="flex gap-1">
+                    <button class="px-2 py-1 text-xs rounded-lg bg-slate-100 dark:bg-slate-900" onclick="clearComposer()">Clear</button>
+                    <button id="publishBtn" class="px-2 py-1 text-xs rounded-lg bg-brand-600 text-white" onclick="publishPostFromComposer()">Post</button>
+                  </div>
+                </div>
+                <div id="composerPreviews" class="flex gap-1 mt-1"></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="feed" class="mt-3 space-y-3"></div>
+        </div>
+      </section>
+
+      <!-- ME -->
+      <section id="me" class="hidden space-y-3">
+        <div class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft">
+          <div class="flex items-center gap-3">
+            <div id="meAvatar" class="w-14 h-14 rounded-xl bg-brand-600 grid place-items-center text-white text-lg font-bold">AE</div>
+            <div class="flex-1">
+              <div id="meName" class="font-bold">Loading...</div>
+              <div class="text-xs text-slate-500" id="meTitle"></div>
+            </div>
+            <div class="flex gap-1">
+              <button class="px-2 py-1 text-xs rounded-lg bg-slate-100 dark:bg-slate-800">Edit</button>
+              <button class="px-2 py-1 text-xs rounded-lg bg-brand-600 text-white">Share</button>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <div class="rounded-xl p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft">
+            <div class="text-xs text-slate-500">Streak</div>
+            <div class="text-lg font-bold">7 days 🔥</div>
+          </div>
+          <div class="rounded-xl p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft">
+            <div class="text-xs text-slate-500">Credits</div>
+            <div class="text-lg font-bold">120</div>
+          </div>
+          <div class="rounded-xl p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft">
+            <div class="text-xs text-slate-500">Badges</div>
+            <div class="mt-1 flex gap-1 text-sm">🏆 🛡️ 🚀</div>
+          </div>
+        </div>
+        
+        <!-- User stats section -->
+        <div class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft">
+          <h3 class="text-lg font-bold mb-2">My Progress</h3>
+          <div id="userStats" class="space-y-2">
+            <div class="text-center py-4 text-slate-500">Loading your data...</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-2 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-md">
+      <div class="glass shadow-glow rounded-2xl px-2 py-1 flex items-center justify-between">
+        <button class="nav-btn px-3 py-2 rounded-xl data-[active=true]:bg-brand-600 data-[active=true]:text-white flex flex-col items-center text-xs" data-target="home">
+          <i data-lucide="home" class="w-5 h-5"></i>
+          <span class="mt-0.5">Home</span>
+        </button>
+        <button class="nav-btn px-3 py-2 rounded-xl data-[active=true]:bg-brand-600 data-[active=true]:text-white flex flex-col items-center text-xs" data-target="courses">
+          <i data-lucide="book-open" class="w-5 h-5"></i>
+          <span class="mt-0.5">Course</span>
+        </button>
+        <button class="nav-btn px-3 py-2 rounded-xl data-[active=true]:bg-brand-600 data-[active=true]:text-white flex flex-col items-center text-xs" data-target="company">
+          <i data-lucide="building-2" class="w-5 h-5"></i>
+          <span class="mt-0.5">Company</span>
+        </button>
+        <button class="nav-btn px-3 py-2 rounded-xl data-[active=true]:bg-brand-600 data-[active=true]:text-white flex flex-col items-center text-xs" data-target="community">
+          <i data-lucide="users" class="w-5 h-5"></i>
+          <span class="mt-0.5">Community</span>
+        </button>
+        <button class="nav-btn px-3 py-2 rounded-xl data-[active=true]:bg-brand-600 data-[active=true]:text-white flex flex-col items-center text-xs" data-target="me">
+          <i data-lucide="user" class="w-5 h-5"></i>
+          <span class="mt-0.5">Me</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Simple Modal for Community Post -->
+  <div id="newPostModal" class="fixed inset-0 hidden bg-black/50 backdrop-blur-sm z-[60]">
+    <div class="absolute inset-0" onclick="closeModal('newPostModal')"></div>
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 shadow-glow">
+      <div class="flex items-center justify-between mb-2">
+        <h4 class="font-semibold text-sm">Create post</h4>
+        <button onclick="closeModal('newPostModal')" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <textarea id="postText" rows="4" class="mt-2 w-full rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2 text-sm" placeholder="Share what you're learning…"></textarea>
+      <div class="mt-2">
+        <label class="cursor-pointer flex items-center gap-1 px-2 py-1 text-xs rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <i data-lucide="image" class="w-3 h-3"></i> Add media/files
+          <input id="postModalFiles" type="file" accept="image/*,video/*,.zip,.rar,.txt,.js,.py,.java,.kt,.pdf" multiple class="hidden">
+        </label>
+        <div id="postModalPreviews" class="mt-2 flex gap-1 flex-wrap"></div>
+      </div>
+      <div class="mt-3 flex justify-end gap-1">
+        <button onclick="closeModal('newPostModal')" class="px-2 py-1 text-xs rounded-lg bg-slate-100 dark:bg-slate-800">Cancel</button>
+        <button id="modalPublishBtn" onclick="publishPostFromModal()" class="px-2 py-1 text-xs rounded-lg bg-brand-600 text-white">Publish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // --- lucide icon injection ---
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+    });
+
+    // === Utilities ===
+    const $ = (q) => document.querySelector(q);
+    const $$ = (q) => Array.from(document.querySelectorAll(q));
+
+    // Theme toggle
+    const themeToggle = $('#themeToggle');
+    const savedTheme = localStorage.getItem('aitech-theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      $('.light-icon')?.classList.add('hidden');
+      $('.dark-icon')?.classList.remove('hidden');
+    }
+    themeToggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('aitech-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      document.querySelectorAll('.light-icon, .dark-icon').forEach(el => el.classList.toggle('hidden'));
+    });
+
+    // Navigation
+    function navigate(id){
+      ['home','courses','company','community','me'].forEach(sec => {
+        const el = document.getElementById(sec);
+        if (!el) return;
+        el.classList.toggle('hidden', sec !== id);
+      });
+      $$('.nav-btn').forEach(b=> b.dataset.active = (b.dataset.target===id));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Load user data when navigating to "Me" section
+      if (id === 'me' && firebase.auth().currentUser) {
+        loadUserData();
+      }
+    }
+    $$('.nav-btn').forEach(btn=> btn.addEventListener('click', ()=> navigate(btn.dataset.target)));
+
+    // Modal helpers
+    function openModal(id){ document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id){ document.getElementById(id).classList.add('hidden'); }
+
+    // Schedule Data (Africa/Lagos time assumed by browser)
+    const schedule = {
+      Monday: [
+        { title: 'HTML', start: '08:00', end: '10:00', track: 'Frontend' },
+        { title: 'CSS', start: '13:00', end: '16:00', track: 'Frontend' },
+      ],
+      Tuesday: [
+        { title: 'JavaScript', start: '09:00', end: '10:30', track: 'Frontend' },
+        { title: 'Python', start: '14:00', end: '15:00', track: 'Backend' },
+      ],
+      Wednesday: [
+        { title: 'Java', start: '12:00', end: '14:00', track: 'Backend' },
+      ],
+      Thursday: [
+        { title: 'XML', start: '11:00', end: '13:00', track: 'Data' },
+      ],
+      Friday: [
+        { title: 'Kotlin', start: '12:00', end: '14:00', track: 'Mobile' },
+      ],
+      Saturday: [
+        { title: 'General discussion', start: '10:00', end: '11:00', track: 'Community' },
+        { title: 'Weekend exam & assignment', start: '14:00', end: '16:00', track: 'Assessment' },
+      ],
+      Sunday: [
+        { title: 'Revision (previous week live topics)', start: '12:00', end: '13:00', track: 'Review' },
+      ],
+    };
+
+    // Attach Cyber Security & Networking to days with only 1 topic
+    Object.entries(schedule).forEach(([day, items]) => {
+      if (items.length === 1) {
+        items.push({ title: 'Cyber Security', start: '16:00', end: '17:00', track: 'Security' });
+        items.push({ title: 'Networking', start: '17:00', end: '18:00', track: 'Security' });
+      }
+    });
+
+    // Helpers
+    function toMinutes(hhmm){ const [h,m] = hhmm.split(':').map(Number); return h*60 + m; }
+    function isLiveNow(item, now){
+      const n = now.getHours()*60 + now.getMinutes();
+      return n >= toMinutes(item.start) && n < toMinutes(item.end);
+    }
+    function fmtRange(item){ return `${item.start} - ${item.end}`; }
+    function dayName(date){ return date.toLocaleDateString(undefined, { weekday: 'long' }); }
+
+    // Render Today + Live Now strip
+    function renderToday(){
+      const now = new Date();
+      $('#todayDate').textContent = now.toLocaleDateString(undefined, { weekday:'short', month:'short', day:'numeric' });
+      const today = dayName(now);
+      const items = schedule[today] || [];
+      const wrap = $('#todaySchedule');
+      wrap.innerHTML = '';
+      let liveNow = [];
+      items.forEach((it, idx) => {
+        const live = isLiveNow(it, now);
+        if (live) liveNow.push(`${it.title} (${fmtRange(it)})`);
+        const card = document.createElement('div');
+        card.className = 'relative rounded-xl p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft hover:shadow-glow transition';
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex-1">
+              <div class="flex items-center gap-1">
+                <i data-lucide="play-circle" class="${live ? 'text-emerald-600' : 'text-slate-400'} w-4 h-4"></i>
+                <h4 class="font-semibold text-sm">${it.title}</h4>
+              </div>
+              <div class="mt-1 text-xs text-slate-500">${fmtRange(it)} • ${it.track}</div>
+            </div>
+            <div class="text-[10px] px-1.5 py-0.5 rounded-full ${live ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-200' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'}">
+              ${live ? 'LIVE' : 'Upcoming'}
+            </div>
+          </div>`;
+        wrap.appendChild(card);
+      });
+      // re-create icons in newly added elements
+      if (window.lucide) window.lucide.createIcons();
+
+      const strip = $('#liveNowStrip');
+      if (liveNow.length) {
+        strip.classList.remove('hidden');
+        $('#liveNowText').textContent = liveNow.join(' • ');
+      } else {
+        strip.classList.add('hidden');
+      }
+    }
+
+    // Render week grid
+    function renderWeek(){
+      const grid = $('#weekGrid');
+      grid.innerHTML = '';
+      Object.entries(schedule).forEach(([day, items])=>{
+        const card = document.createElement('div');
+        card.className = 'rounded-xl p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft';
+        card.innerHTML = `<div class="flex items-center justify-between mb-2"><h4 class="font-semibold text-sm">${day}</h4>
+          <button class="text-[10px] px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800" onclick="viewDay('${day}')">View</button></div>`;
+        const list = document.createElement('ul');
+        list.className = 'space-y-1';
+        items.slice(0, 2).forEach(it => {
+          const li = document.createElement('li');
+          li.className = 'flex items-center justify-between text-xs';
+          li.innerHTML = `<span class="truncate">${it.title}</span><span class="text-slate-500 text-[10px]">${it.start}</span>`;
+          list.appendChild(li);
+        });
+        if (items.length > 2) {
+          const more = document.createElement('li');
+          more.className = 'text-xs text-slate-500 mt-1';
+          more.textContent = `+${items.length - 2} more`;
+          list.appendChild(more);
+        }
+        card.appendChild(list);
+        grid.appendChild(card);
+      });
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    // Mini data for courses page
+    const allCourses = [
+      { name: 'HTML Foundations', tag:'Frontend' },
+      { name: 'CSS Mastery', tag:'Frontend' },
+      { name: 'JavaScript from Zero to Hero', tag:'Frontend' },
+      { name: 'Python Basics', tag:'Backend' },
+      { name: 'Java for Developers', tag:'Backend' },
+      { name: 'Kotlin for Android', tag:'Mobile' },
+      { name: 'XML & Data Exchange', tag:'Data' },
+      { name: 'Cyber Security Essentials', tag:'Security' },
+      { name: 'Networking Fundamentals', tag:'Security' },
+    ];
+
+    function renderCourses(){
+      const grid = $('#courseGrid');
+      const q = $('#courseSearch').value?.toLowerCase() || '';
+      const f = $('#courseFilter').value || 'all';
+      grid.innerHTML = '';
+      allCourses.filter(c => (f==='all'||c.tag===f) && c.name.toLowerCase().includes(q)).forEach(c => {
+        const el = document.createElement('div');
+        el.className = 'rounded-xl p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-soft hover:shadow-glow transition';
+        el.innerHTML = `<div class="flex items-start justify-between">
+          <div class="flex-1">
+            <div class="font-semibold text-sm">${c.name}</div>
+            <div class="text-xs mt-1 px-1.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 inline-block">${c.tag}</div>
+          </div>
+          <button class="px-2 py-1 text-xs rounded-lg bg-brand-600 text-white">Enroll</button>
+        </div>`;
+        grid.appendChild(el);
+      });
+      if (window.lucide) window.lucide.createIcons();
+    }
+    $('#courseSearch')?.addEventListener('input', renderCourses);
+    $('#courseFilter')?.addEventListener('change', renderCourses);
+
+    // Company, Community fillers
+    function seedAnnouncements(){
+      const list = [
+        '🎯 Capstone kickoff next week — form your teams.',
+        '🛡️ Security month: extra labs unlocked.',
+        '📣 New office hours with ANOINTING ESE every Thursday 5pm.',
+      ];
+      const ul = $('#announcements'); ul.innerHTML = '';
+      list.forEach(t => {
+        const li = document.createElement('li');
+        li.className = 'p-2 rounded-lg bg-slate-50 dark:bg-slate-800';
+        li.textContent = t; ul.appendChild(li);
+      });
+    }
+
+    function seedLeaderboard(){
+      const data = [
+        { name:'Adaora N.', pts:980 },
+        { name:'Kehinde A.', pts:920 },
+        { name:'Sule I.', pts:905 },
+      ];
+      const box = $('#leaderboard'); box.innerHTML='';
+      data.forEach((u,i)=>{
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-800';
+        row.innerHTML = `<div class="flex items-center gap-2"><div class="w-6 h-6 rounded-md bg-brand-600 text-white grid place-items-center text-xs">${i+1}</div><div class="text-xs">${u.name}</div></div><div class="font-semibold text-xs">${u.pts}</div>`;
+        box.appendChild(row);
+      });
+    }
+
+    function seedUpcoming(){
+      const list = [
+        'Hackathon — Sept 20',
+        'Career fair — Oct 12',
+        'Alumni AMA — Nov 2',
+      ];
+      const ul = $('#upcoming'); ul.innerHTML='';
+      list.forEach(t=>{
+        const li = document.createElement('li');
+        li.className='p-2 rounded-lg bg-slate-50 dark:bg-slate-800';
+        li.textContent=t; ul.appendChild(li);
+      })
+    }
+
+    // ==== FIREBASE + CLOUDINARY SETUP ====
+    // Replace with your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAWYPeRhufEzgI9VBYyCQJTd8tIfSNohv0",
+      authDomain: "aitech-1e85c.firebaseapp.com",
+      projectId: "aitech-1e85c",
+      storageBucket: "aitech-1e85c.firebasestorage.app",
+      messagingSenderId: "885179578065",
+      appId: "1:885179578065:web:0ffb403c06880422be37f0"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Cloudinary details
+    const CLOUDINARY_CLOUD = 'dhoa1mdew';
+    const CLOUDINARY_PRESET = 'unigned';
+    const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/auto/upload`;
+
+    // Helper: upload a single file to Cloudinary
+    async function uploadToCloudinary(file, onProgress) {
+      const form = new FormData();
+      form.append('file', file);
+      form.append('upload_preset', CLOUDINARY_PRESET);
+      const xhr = new XMLHttpRequest();
+      return new Promise((resolve, reject) => {
+        xhr.open('POST', CLOUDINARY_UPLOAD_URL);
+        xhr.upload.addEventListener('progress', (e) => {
+          if (e.lengthComputable && typeof onProgress === 'function') {
+            onProgress(Math.round((e.loaded / e.total) * 100));
+          }
+        });
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === 4) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              try {
+                const res = JSON.parse(xhr.responseText);
+                resolve({ url: res.secure_url, raw: res, public_id: res.public_id, resource_type: res.resource_type });
+              } catch (err) {
+                reject(err);
+              }
+            } else {
+              reject(new Error('Upload failed: ' + xhr.status + ' ' + xhr.responseText));
+            }
+          }
+        };
+        xhr.send(form);
+      });
+    }
+
+    // ==== Fetch User Data from Firestore ====
+    async function loadUserData() {
+      const user = auth.currentUser;
+      if (!user) {
+        console.log("No user logged in");
+        return;
+      }
+
+      try {
+        const userDoc = await db.collection('users').doc(user.uid).get();
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          
+          // Update UI with user data
+          if (userData.name) {
+            $('#meName').textContent = userData.name;
+            
+            // Update avatar initials
+            const initials = userData.name.split(' ').map(n => n[0]).join('').toUpperCase();
+            $('#composerAvatar').textContent = initials.slice(0, 2);
+            $('#meAvatar').textContent = initials.slice(0, 2);
+          }
+          
+          if (userData.profilePicture) {
+            $('#meAvatar').innerHTML = `<img src="${userData.profilePicture}" class="w-full h-full object-cover rounded-xl">`;
+            $('#composerAvatar').innerHTML = `<img src="${userData.profilePicture}" class="w-full h-full object-cover rounded-xl">`;
+          }
+          
+          // Remove the title section completely
+          $('#meTitle').textContent = '';
+          
+          // Load user stats
+          renderUserStats(userData);
+        } else {
+          console.log("No user data found");
+        }
+      } catch (error) {
+        console.error("Error loading user data:", error);
+      }
+    }
+
+    function renderUserStats(userData) {
+      const statsContainer = $('#userStats');
+      statsContainer.innerHTML = '';
+      
+      const stats = [
+        { label: 'Courses Completed', value: userData.coursesCompleted || 0, icon: 'book-check' },
+        { label: 'Current Streak', value: `${userData.streak || 0} days`, icon: 'flame' },
+        { label: 'Total Points', value: userData.points || 0, icon: 'award' },
+        { label: 'Projects', value: userData.projects || 0, icon: 'folder' }
+      ];
+      
+      stats.forEach(stat => {
+        const statEl = document.createElement('div');
+        statEl.className = 'flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-800';
+        statEl.innerHTML = `
+          <div class="flex items-center gap-2">
+            <i data-lucide="${stat.icon}" class="w-4 h-4 text-brand-600"></i>
+            <span class="text-sm">${stat.label}</span>
+          </div>
+          <span class="font-bold">${stat.value}</span>
+        `;
+        statsContainer.appendChild(statEl);
+      });
+      
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    // ==== COMMUNITY: composing posts ====
+    const composerFilesInput = $('#composerFiles');
+    const composerPreviews = $('#composerPreviews');
+    let composerFiles = [];
+
+    composerFilesInput.addEventListener('change', handleComposerFiles);
+
+    function handleComposerFiles(e){
+      composerFiles = Array.from(e.target.files || []);
+      renderComposerPreviews();
+    }
+    
+    function renderComposerPreviews(){
+      composerPreviews.innerHTML = '';
+      composerFiles.forEach((f, idx) => {
+        const el = document.createElement('div');
+        el.className = 'relative w-12 h-12 rounded-md overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-0.5';
+        if (f.type.startsWith('image/')) {
+          const img = document.createElement('img'); 
+          img.src = URL.createObjectURL(f); 
+          img.className = 'w-full h-full object-cover'; 
+          el.appendChild(img);
+        } else if (f.type.startsWith('video/')) {
+          const vid = document.createElement('video'); 
+          vid.src = URL.createObjectURL(f); 
+          vid.className = 'w-full h-full object-cover'; 
+          vid.muted = true; 
+          vid.loop = true; 
+          vid.play(); 
+          el.appendChild(vid);
+        } else {
+          const icon = document.createElement('div'); 
+          icon.className = 'w-full h-full grid place-items-center text-xs text-slate-700'; 
+          icon.innerText = f.name.split('.').pop(); 
+          el.appendChild(icon);
+        }
+        const rem = document.createElement('button'); 
+        rem.className = 'absolute -top-1 -right-1 w-4 h-4 bg-red-600 text-white text-[10px] rounded-full grid place-items-center'; 
+        rem.innerText = '×';
+        rem.addEventListener('click', ()=> { composerFiles.splice(idx,1); renderComposerPreviews(); });
+        el.appendChild(rem);
+        composerPreviews.appendChild(el);
+      });
+    }
+
+    function clearComposer(){
+      $('#composerText').value = '';
+      composerFiles = [];
+      composerPreviews.innerHTML = '';
+      $('#composerFiles').value = '';
+    }
+
+    // Modal composer
+    $('#postModalFiles').addEventListener('change', (e)=> {
+      const files = Array.from(e.target.files || []);
+      const container = $('#postModalPreviews'); 
+      container.innerHTML='';
+      files.forEach(f => {
+        const div = document.createElement('div'); 
+        div.className = 'w-16 h-16 rounded-md overflow-hidden border p-0.5';
+        if (f.type.startsWith('image/')) {
+          const img = document.createElement('img'); 
+          img.src = URL.createObjectURL(f); 
+          img.className = 'w-full h-full object-cover'; 
+          div.appendChild(img);
+        } else if (f.type.startsWith('video/')) {
+          const vid = document.createElement('video'); 
+          vid.src = URL.createObjectURL(f); 
+          vid.className = 'w-full h-full object-cover'; 
+          vid.muted = true; 
+          vid.loop = true; 
+          vid.play(); 
+          div.appendChild(vid);
+        } else {
+          const t = document.createElement('div');
+          t.className='w-full h-full grid place-items-center text-xs'; 
+          t.innerText = f.name.split('.').pop(); 
+          div.appendChild(t);
+        }
+        container.appendChild(div);
+      });
+    });
+
+    // Publish flow (composer area)
+    async function publishPostFromComposer(){
+      const user = auth.currentUser;
+      if (!user) {
+        alert('Please sign in to publish posts.');
+        return;
+      }
+      const text = $('#composerText').value.trim();
+      const files = composerFiles.slice();
+      $('#publishBtn').disabled = true; 
+      $('#publishBtn').innerText = 'Publishing...';
+      
+      try {
+        const media = [];
+        for (let i=0;i<files.length;i++){
+          const f = files[i];
+          const res = await uploadToCloudinary(f);
+          media.push({ 
+            url: res.url, 
+            public_id: res.public_id, 
+            resource_type: res.resource_type, 
+            filename: f.name, 
+            size: f.size, 
+            mime: f.type 
+          });
+        }
+        
+        const post = {
+          text,
+          media,
+          authorUid: user.uid,
+          authorName: user.displayName || user.email || 'Anonymous',
+          authorPhoto: user.photoURL || null,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        };
+        
+        await db.collection('posts').add(post);
+        loadFeed();
+        clearComposer();
+        alert('Post published!');
+      } catch (err) {
+        console.error(err); 
+        alert('Upload or save failed: ' + err.message);
+      } finally {
+        $('#publishBtn').disabled = false; 
+        $('#publishBtn').innerText = 'Post';
+      }
+    }
+
+    // Publish flow (modal)
+    async function publishPostFromModal(){
+      const user = auth.currentUser;
+      if (!user) {
+        alert('Please sign in to publish posts.');
+        return;
+      }
+      const text = $('#postText').value.trim();
+      const files = Array.from($('#postModalFiles').files || []);
+      $('#modalPublishBtn').disabled = true; 
+      $('#modalPublishBtn').innerText = 'Publishing...';
+      
+      try {
+        const media = [];
+        for (let i=0;i<files.length;i++){
+          const f = files[i];
+          const res = await uploadToCloudinary(f);
+          media.push({ 
+            url: res.url, 
+            public_id: res.public_id, 
+            resource_type: res.resource_type, 
+            filename: f.name, 
+            size: f.size, 
+            mime: f.type 
+          });
+        }
+        
+        const post = {
+          text,
+          media,
+          authorUid: user.uid,
+          authorName: user.displayName || user.email || 'Anonymous',
+          authorPhoto: user.photoURL || null,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        };
+        
+        await db.collection('posts').add(post);
+        closeModal('newPostModal');
+        $('#postText').value = '';
+        $('#postModalFiles').value = '';
+        $('#postModalPreviews').innerHTML = '';
+        loadFeed();
+        alert('Post published!');
+      } catch (err) {
+        console.error(err); 
+        alert('Upload or save failed: ' + err.message);
+      } finally {
+        $('#modalPublishBtn').disabled = false; 
+        $('#modalPublishBtn').innerText = 'Publish';
+      }
+    }
+
+    // ==== load posts from Firestore and render ====
+    async function loadFeed(){
+      if (!db) {
+        console.warn('Firestore not initialized — cannot load feed.');
+        return;
+      }
+      const feed = $('#feed'); 
+      feed.innerHTML = '<div class="py-4 text-center text-slate-500 text-sm">Loading posts…</div>';
+      
+      try {
+        const snap = await db.collection('posts').orderBy('createdAt','desc').limit(20).get();
+        feed.innerHTML = '';
+        
+        if (snap.empty) {
+          feed.innerHTML = '<div class="py-4 text-center text-slate-500 text-sm">No posts yet — be the first!</div>';
+        } else {
+          snap.forEach(doc => {
+            const p = doc.data();
+            const el = renderPostCard(doc.id, p);
+            feed.appendChild(el);
+          });
+        }
+        if (window.lucide) window.lucide.createIcons();
+      } catch (err) {
+        console.error('Error loading posts:', err);
+        feed.innerHTML = '<div class="py-4 text-center text-red-500 text-sm">Failed to load posts.</div>';
+      }
+    }
+
+    function renderPostCard(id, post){
+      const card = document.createElement('div');
+      card.className = 'p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800';
+      
+      const authorPhoto = post.authorPhoto || null;
+      const authorName = post.authorName || 'Anonymous';
+      const created = post.createdAt && post.createdAt.toDate ? post.createdAt.toDate() : (post.createdAt ? new Date(post.createdAt) : new Date());
+      const timeAgo = timeSince(created);
+
+      // header
+      const header = document.createElement('div');
+      header.className = 'flex items-center gap-2';
+      
+      const avatar = document.createElement('div');
+      avatar.className = 'w-8 h-8 rounded-md overflow-hidden grid place-items-center flex-shrink-0';
+      if (authorPhoto) {
+        const img = document.createElement('img'); 
+        img.src = authorPhoto; 
+        img.className = 'w-full h-full object-cover';
+        avatar.appendChild(img);
+      } else {
+        avatar.classList.add('bg-brand-600','text-white','font-bold', 'text-xs'); 
+        avatar.innerText = authorName.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase();
+      }
+      
+      const nameBlock = document.createElement('div');
+      nameBlock.className = 'flex-1';
+      const nameEl = document.createElement('div'); 
+      nameEl.className = 'font-semibold text-sm'; 
+      nameEl.innerText = authorName;
+      const timeEl = document.createElement('div'); 
+      timeEl.className = 'text-xs text-slate-500'; 
+      timeEl.innerText = timeAgo;
+      nameBlock.appendChild(nameEl); 
+      nameBlock.appendChild(timeEl);
+
+      header.appendChild(avatar); 
+      header.appendChild(nameBlock);
+
+      // content
+      const content = document.createElement('div'); 
+      content.className = 'mt-2 text-sm text-slate-700 dark:text-slate-300';
+      if (post.text) {
+        const t = document.createElement('div'); 
+        t.innerHTML = linkify(escapeHtml(post.text));
+        content.appendChild(t);
+      }
+
+      // media grid
+      const mediaWrap = document.createElement('div'); 
+      mediaWrap.className = 'mt-2 grid gap-1';
+      if (Array.isArray(post.media) && post.media.length){
+        const medias = post.media;
+        const mediaGrid = document.createElement('div');
+        mediaGrid.className = 'grid gap-1';
+        
+        if (medias.length === 1) {
+          mediaGrid.classList.add('grid-cols-1');
+        } else if (medias.length === 2) {
+          mediaGrid.classList.add('grid-cols-2');
+        } else {
+          mediaGrid.classList.add('grid-cols-2');
+        }
+
+        medias.forEach(m=>{
+          const mdiv = document.createElement('div'); 
+          mdiv.className = 'rounded-md overflow-hidden border';
+          if (m.resource_type && m.resource_type.startsWith('image')) {
+            const img = document.createElement('img'); 
+            img.src = m.url; 
+            img.className = 'w-full h-32 object-cover';
+            mdiv.appendChild(img);
+          } else if (m.resource_type && m.resource_type.startsWith('video')) {
+            const vid = document.createElement('video'); 
+            vid.src = m.url; 
+            vid.controls = true; 
+            vid.className = 'w-full max-h-40';
+            mdiv.appendChild(vid);
+          } else {
+            const link = document.createElement('a'); 
+            link.href = m.url; 
+            link.target = '_blank'; 
+            link.className = 'block p-2 text-xs';
+            link.innerHTML = `<div class="flex items-center justify-between"><div class="truncate">${m.filename || m.public_id}</div><div class="text-slate-500 text-[10px]">Download</div></div>`;
+            mdiv.appendChild(link);
+          }
+          mediaGrid.appendChild(mdiv);
+        });
+        mediaWrap.appendChild(mediaGrid);
+      }
+
+      // actions
+      const actions = document.createElement('div'); 
+      actions.className = 'mt-2 flex items-center gap-2 text-xs';
+      const shareBtn = document.createElement('button'); 
+      shareBtn.className = 'px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800'; 
+      shareBtn.innerText = 'Share';
+      shareBtn.addEventListener('click', ()=> {
+        if (navigator.share) {
+          navigator.share({
+            title: post.text?.slice(0,80) || 'AITECH Post',
+            text: post.text || '',
+            url: window.location.origin
+          }).catch(()=>{});
+        } else {
+          const txt = (post.media && post.media[0] && post.media[0].url) ? post.media[0].url : (post.text || '');
+          navigator.clipboard.writeText(txt).then(()=> alert('Link copied to clipboard'));
+        }
+      });
+      actions.appendChild(shareBtn);
+
+      // assemble
+      card.appendChild(header);
+      card.appendChild(content);
+      if (mediaWrap.children.length) card.appendChild(mediaWrap);
+      card.appendChild(actions);
+
+      return card;
+    }
+
+    function linkify(text){
+      return text.replace(/(https?:\/\/[^\s]+)/g, (url) => `<a href="${url}" target="_blank" class="text-brand-600 hover:underline">${url}</a>`);
+    }
+    
+    function escapeHtml(str){
+      return str.replace(/[&<>"']/g, function(m){ 
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]); 
+      });
+    }
+    
+    function timeSince(date){
+      const seconds = Math.floor((new Date() - date) / 1000);
+      let interval = Math.floor(seconds / 31536000);
+      if (interval >= 1) return interval + "y";
+      interval = Math.floor(seconds / 2592000);
+      if (interval >= 1) return interval + "mo";
+      interval = Math.floor(seconds / 86400);
+      if (interval >= 1) return interval + "d";
+      interval = Math.floor(seconds / 3600);
+      if (interval >= 1) return interval + "h";
+      interval = Math.floor(seconds / 60);
+      if (interval >= 1) return interval + "m";
+      return Math.floor(seconds) + "s";
+    }
+
+    // on-load listeners and initial state
+    setInterval(renderToday, 60 * 1000);
+
+    // On load
+    navigate('home');
+    renderToday();
+    renderWeek();
+    renderCourses();
+    seedAnnouncements();
+    seedLeaderboard();
+    seedUpcoming();
+
+    // start listening for auth and posts
+    (function startRealtime(){
+      if (!firebase || !firebase.auth) {
+        console.warn('Firebase not initialized. Feed will not auto-load.');
+        seedFeed();
+        return;
+      }
+
+      // Auth state listener
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          // Load user data from Firestore
+          loadUserData();
+          
+          // Update composer avatar
+          const initials = user.displayName ? 
+            user.displayName.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase() : 
+            (user.email ? user.email[0].toUpperCase() : 'U');
+          $('#composerAvatar').textContent = initials;
+          
+          if (user.photoURL) {
+            $('#composerAvatar').innerHTML = `<img src="${user.photoURL}" class="w-full h-full object-cover rounded-xl">`;
+          }
+        } else {
+          $('#composerAvatar').textContent = 'AE';
+        }
+      });
+
+      // Realtime posts listener
+      db.collection('posts').orderBy('createdAt','desc').limit(20).onSnapshot(snapshot => {
+        const feed = $('#feed'); 
+        feed.innerHTML = '';
+        
+        if (snapshot.empty) {
+          feed.innerHTML = '<div class="py-4 text-center text-slate-500 text-sm">No posts yet — be the first!</div>';
+          return;
+        }
+        
+        snapshot.forEach(doc => {
+          const el = renderPostCard(doc.id, doc.data());
+          feed.appendChild(el);
+        });
+        
+        if (window.lucide) window.lucide.createIcons();
+      }, err => {
+        console.error('Posts listener error:', err);
+        seedFeed();
+      });
+    })();
+
+    // Fallback seed feed function
+    function seedFeed(){
+      const posts = [
+        { who:'Mariam', when:'2h', text:'Just completed the CSS Mastery module — animations are 🔥' },
+        { who:'Chidi', when:'5h', text:'Anyone up for a pair-programming session on Kotlin today?' },
+      ];
+      const feed = $('#feed'); 
+      feed.innerHTML='';
+      
+      posts.forEach(p=>{
+        const el = document.createElement('div');
+        el.className = 'p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700';
+        el.innerHTML = `<div class="text-xs text-slate-500">${p.who} • ${p.when} ago</div><div class="mt-1 text-sm">${p.text}</div>`;
+        feed.appendChild(el);
+      })
+    }
+
+    // Fancy entrance animation
+    window.addEventListener('load', () => {
+      gsap.from('header .glass', { y: -20, opacity: 0, duration: 0.6, ease: 'power2.out' });
+      gsap.from('main section#home > *', { y: 20, opacity: 0, duration: 0.6, ease: 'power2.out', stagger: 0.08, delay: 0.1 });
+      if (window.lucide) window.lucide.createIcons();
+    });
+
+    // small helper for viewDay
+    function viewDay(day){
+      navigate('home');
+      const idx = Array.from($('#weekGrid').children).findIndex(c => c.querySelector('h4').textContent===day);
+      if(idx>=0){
+        $('#weekGrid').children[idx].scrollIntoView({ behavior:'smooth', block:'center' });
+      }
+    }
+
+    function openCalendar(){
+      alert('Calendar integration placeholder — connect Google Calendar or ICS feed.');
+    }
+
+  </script>
+</body>
+</html>
