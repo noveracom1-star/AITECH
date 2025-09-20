@@ -111,7 +111,7 @@
               <button onclick="navigate('community')" class="px-3 py-1.5 text-sm rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:opacity-90 shadow-soft">Join Community</button>
             </div>
           </div>
-          <div class="relative mt-3 md:mt-0">
+          <div id="mentorCard" class="relative mt-3 md:mt-0">
             <div class="w-full md:w-[280px] h-40 md:h-44 rounded-xl bg-white/70 dark:bg-slate-900/60 border border-white/40 dark:border-slate-700 overflow-hidden grid place-items-center shadow-soft">
               <div class="text-center p-3">
                 <div class="text-xs text-slate-500">Mentor • Founder • Tutor</div>
@@ -597,7 +597,7 @@
             <div class="font-semibold text-sm">${c.name}</div>
             <div class="text-xs mt-1 px-1.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 inline-block">${c.tag}</div>
           </div>
-          <button class="px-2 py-1 text-xs rounded-lg bg-brand-600 text-white">Enroll</button>
+          <button class="px-2 py-1 text-xs rounded-lg bg-brand-600 text-white" onclick="window.location.href='enroll.html'">Enroll</button>
         </div>`;
         grid.appendChild(el);
       });
@@ -1130,6 +1130,30 @@
       return Math.floor(seconds) + "s";
     }
 
+    // Function to get Google Meet link from Firestore
+    async function getGoogleMeetLink(courseName) {
+      try {
+        const doc = await db.collection('meetingLinks').doc(courseName.toLowerCase().replace(/\s+/g, '_')).get();
+        if (doc.exists) {
+          return doc.data().link;
+        }
+        return null;
+      } catch (error) {
+        console.error("Error fetching Google Meet link:", error);
+        return null;
+      }
+    }
+
+    // Function to handle live course clicks
+    async function handleLiveCourseClick(courseName) {
+      const meetLink = await getGoogleMeetLink(courseName);
+      if (meetLink) {
+        window.open(meetLink, '_blank');
+      } else {
+        alert("No live session available for this course at the moment.");
+      }
+    }
+
     // on-load listeners and initial state
     setInterval(renderToday, 60 * 1000);
 
@@ -1141,6 +1165,18 @@
     seedAnnouncements();
     seedLeaderboard();
     seedUpcoming();
+
+    // Hide mentor card after 5 seconds
+    setTimeout(() => {
+      const mentorCard = document.getElementById('mentorCard');
+      if (mentorCard) {
+        mentorCard.style.opacity = '0';
+        mentorCard.style.transition = 'opacity 1s ease-out';
+        setTimeout(() => {
+          mentorCard.style.display = 'none';
+        }, 1000);
+      }
+    }, 5000);
 
     // start listening for auth and posts
     (function startRealtime(){
